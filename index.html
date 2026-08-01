@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raidic — AppleRAID, managed. On your Mac.</title>
+<meta name="description" content="Raidic is a macOS app for creating and managing AppleRAID sets — mirrors, stripes, live rebuild progress, and degraded-set alerts. No terminal required.">
+<link rel="alternate" hreflang="en" href="https://raidic.app/">
+<link rel="alternate" hreflang="zh-Hant" href="https://raidic.app/zh/">
+<link rel="alternate" hreflang="ja" href="https://raidic.app/ja/">
+<link rel="alternate" hreflang="ko" href="https://raidic.app/ko/">
+<link rel="alternate" hreflang="x-default" href="https://raidic.app/">
+<style>
+  :root {
+    --accent: #4A7A9B;
+    --accent-deep: #2C4F68;
+    --accent-tint: #DFE9F0;
+    --bg: #F2F6F9;
+    --fg: #22303C;
+    --muted: #5E7285;
+    --card: #E5EDF3;
+    --border: rgba(44, 79, 104, 0.16);
+    --ok: #2E9459;
+    --warn: #D48019;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #6FA3C7;
+      --accent-deep: #9CC3DE;
+      --accent-tint: #1C2A36;
+      --bg: #0F1720;
+      --fg: #E8F0F6;
+      --muted: #93A9BB;
+      --card: #17222D;
+      --border: rgba(111, 163, 199, 0.22);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 900px; margin: 0 auto; padding: 16px 24px;
+  }
+  .brand { font-weight: 700; font-size: 17px; color: var(--accent-deep); text-decoration: none; }
+  .lang { font-size: 14px; color: var(--muted); }
+  .lang a { color: var(--muted); text-decoration: none; padding: 0 6px; }
+  .lang a:hover { color: var(--fg); }
+  .lang a.active { color: var(--accent-deep); font-weight: 600; }
+  header { padding: 72px 0 48px; text-align: center; }
+  header h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; }
+  header .tagline { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; color: var(--muted); margin-top: 12px; }
+  .raid-demo {
+    margin: 56px auto 0; max-width: 560px; text-align: left;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px;
+  }
+  .raid-demo.degraded { background: rgba(212, 128, 25, 0.10); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chip {
+    display: inline-block; padding: 3px 12px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; color: #fff;
+  }
+  .chip.name { background: #4075BF; font-size: 16px; }
+  .chip.level { background: #6E56CF; }
+  .chip.size { background: #3A8E8C; }
+  .chip.warn { background: var(--warn); }
+  .member { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .member code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; }
+  .dot-ok {
+    display: inline-block; padding: 2px 8px; border-radius: 999px;
+    background: var(--ok); color: #fff; font-size: 11px; font-weight: 700;
+  }
+  .bar {
+    flex: 1; height: 6px; border-radius: 3px; background: var(--border);
+    overflow: hidden; max-width: 180px;
+  }
+  .bar span { display: block; height: 100%; width: 37%; background: #B88A0D; border-radius: 3px; }
+  .pct { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); }
+  section { padding: 48px 0; border-top: 1px solid var(--border); }
+  h2 { font-size: 32px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.01em; color: var(--accent-deep); }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .feature { background: var(--card); border-radius: 16px; padding: 24px; }
+  .feature h3 { font-size: 18px; margin-bottom: 8px; }
+  .feature p { color: var(--muted); font-size: 15px; }
+  .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .mode { background: var(--card); border-radius: 16px; padding: 28px; }
+  .mode h3 { font-size: 20px; margin-bottom: 10px; color: var(--accent-deep); }
+  .mode p { color: var(--muted); font-size: 15px; }
+  .mode code {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 1px 6px; font-size: 13px;
+  }
+  details {
+    background: var(--card); border-radius: 12px; padding: 16px 20px;
+    margin-bottom: 10px; border: 1px solid var(--border);
+  }
+  details summary {
+    font-weight: 600; cursor: pointer; color: var(--accent-deep);
+    font-size: 16px;
+  }
+  details p { color: var(--muted); font-size: 15px; margin-top: 10px; }
+  footer { padding: 48px 0 64px; text-align: center; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); }
+  .langs { margin-top: 8px; }
+</style>
+<script>
+  // Remember an explicit language choice.
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest(".lang a");
+    if (!link) return;
+    try { localStorage.setItem("raidic-lang", link.getAttribute("data-lang")); } catch (e) {}
+  });
+</script>
+<script>
+  // First visit only: route to the matching translation. An explicit choice
+  // (stored on click) and ?lang=en both win, so nobody gets trapped.
+  (function () {
+    var params = new URLSearchParams(location.search);
+    if (params.get("lang") === "en") return;
+    var saved = null;
+    try { saved = localStorage.getItem("raidic-lang"); } catch (e) {}
+    if (saved) {
+      if (saved !== "en") location.replace(saved + "/");
+      return;
+    }
+    var map = [[/^zh/i, "zh/"], [/^ja/i, "ja/"], [/^ko/i, "ko/"]];
+    var langs = navigator.languages && navigator.languages.length
+      ? navigator.languages : [navigator.language || ""];
+    for (var i = 0; i < langs.length; i++) {
+      for (var j = 0; j < map.length; j++) {
+        if (map[j][0].test(langs[i])) { location.replace(map[j][1]); return; }
+      }
+      if (/^en/i.test(langs[i])) return; // English preferred before any match
+    }
+  })();
+</script>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="./">Raidic</a>
+  <span class="lang"><a href="zh/" data-lang="zh">中文</a>|<a href="ja/" data-lang="ja">日本語</a>|<a href="ko/" data-lang="ko">한국어</a>|<a class="active" href="./" data-lang="en">EN</a></span>
+</nav>
+
+<header class="container">
+  <h1>Raidic</h1>
+  <p class="tagline">AppleRAID, managed.<br>No terminal required.</p>
+
+  <div class="raid-demo degraded" aria-hidden="true">
+    <div class="chips">
+      <span class="chip name">Backup</span>
+      <span class="chip warn">Rebuilding</span>
+      <span class="chip level">Mirror</span>
+      <span class="chip size">2 TB</span>
+    </div>
+    <div class="member">
+      <span class="dot-ok">OK</span> <code>disk4s2</code>
+    </div>
+    <div class="member">
+      <span class="dot-ok" style="background:#B88A0D">⟳</span> <code>disk5s2</code>
+      <span class="bar"><span></span></span>
+      <span class="pct">37.4% · 748 GB / 2 TB</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>Everything diskutil knows, at a glance</h2>
+    <div class="modes">
+      <div class="mode">
+        <h3>Trouble you can't miss</h3>
+        <p>A degraded set turns its whole card orange. A mirror running on
+        one disk shows <code>No redundancy</code> — even though macOS
+        reports it as "Online". Missing members are called out by name.</p>
+      </div>
+      <div class="mode">
+        <h3>Rebuilds, byte-accurate</h3>
+        <p>diskutil shows rebuild progress as a whole percent. Raidic reads
+        the rebuilt bytes directly and shows <code>0.12%</code> when the
+        rebuild starts and <code>748 GB / 2 TB</code> as it runs —
+        refreshed automatically every 5 seconds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Built for real RAID workflows</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>🖱 Drag a disk in</h3>
+        <p>Drop a physical disk onto a RAID set to add it as a member.
+        Rebuild starts after one confirmation — never silently.</p>
+      </div>
+      <div class="feature">
+        <h3>🧱 Degraded RAID1 on purpose</h3>
+        <p>Create a mirror with a single disk, move your data in, then add
+        the second disk later. The classic migration workflow, built in.</p>
+      </div>
+      <div class="feature">
+        <h3>🛟 Guardrails everywhere</h3>
+        <p>The boot disk is never offered. Destructive actions require
+        typing the set name. Disks too small for a set are refused before
+        you ever type a password.</p>
+      </div>
+      <div class="feature">
+        <h3>🧭 Volumes, mapped</h3>
+        <p>See every mounted volume, its filesystem, mount point and free
+        space — including APFS volumes living inside a container on top of
+        your RAID set.</p>
+      </div>
+      <div class="feature">
+        <h3>🔍 Disk details</h3>
+        <p>Click any disk for its model name, bus, SMART status, and
+        partitions. Brand names like "Samsung PSSD T7" right in the
+        list.</p>
+      </div>
+      <div class="feature">
+        <h3>🏷 Labels, your way</h3>
+        <p>Set names, levels and sizes are colorful chips. Click any chip
+        to shuffle its color — text flips black or white to stay
+        readable.</p>
+      </div>
+      <div class="feature">
+        <h3>🌐 Three languages</h3>
+        <p>English, 繁體中文, and 日本語 — switch anytime with ⌘, in
+        Settings.</p>
+      </div>
+      <div class="feature">
+        <h3>🍎 Native</h3>
+        <p>SwiftUI, Apple Silicon native, no dependencies. Reads are
+        password-free; only real changes ask for admin rights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <h2>FAQ</h2>
+      <details>
+        <summary>Is Raidic safe to use on disks with data?</summary>
+        <p>Raidic drives the same diskutil engine Apple ships. Listing and monitoring are read-only and need no password. Anything destructive — creating a set, adding a member — shows exactly which disks will be erased and requires typing the set name plus macOS admin authentication.</p>
+      </details>
+      <details>
+        <summary>Can it create a degraded RAID1?</summary>
+        <p>Yes. Pick Mirror and select a single disk — Raidic warns that the set starts with no redundancy, and you complete the mirror later by dragging in a second disk. That triggers a full rebuild with live progress.</p>
+      </details>
+      <details>
+        <summary>Why does my mirror say "No redundancy" when macOS says Online?</summary>
+        <p>macOS reports a single-member mirror as Online because its only member is healthy. But one disk means zero fault tolerance — Raidic flags that state explicitly so you're never surprised.</p>
+      </details>
+      <details>
+        <summary>Does it support APFS on RAID?</summary>
+        <p>Yes. When a RAID set carries an APFS container, Raidic follows the container to the real mounted volume and shows its name, mount point, and free space — the part Disk Utility makes hard to see.</p>
+      </details>
+      <details>
+        <summary>Why isn't my disk offered as a candidate?</summary>
+        <p>Raidic never offers the boot disk or disks that already belong to a RAID set. Disks with stale RAID leftovers from deleted sets are labeled — they're still usable, and creating a new set cleans them up.</p>
+      </details>
+      <details>
+        <summary>Does Raidic send any data anywhere?</summary>
+        <p>No. No network capability, no analytics. It only talks to macOS's own disk management.</p>
+      </details>
+      <details>
+        <summary>Can Apple Silicon Macs boot from AppleRAID?</summary>
+        <p>No — that's a macOS limitation, not Raidic's. AppleRAID is for data and external disks, like a mirrored backup pair.</p>
+      </details>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Raidic — a macOS utility.</p>
+    <p class="langs">English · 繁體中文 · 日本語 · 한국어</p>
+  </div>
+</footer>
+
+</body>
+</html>

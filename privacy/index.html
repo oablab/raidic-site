@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raidic — Privacy Policy</title>
+<meta name="description" content="Raidic privacy policy.">
+<style>
+  :root {
+    --accent: #4A7A9B;
+    --accent-deep: #2C4F68;
+    --bg: #F2F6F9;
+    --fg: #22303C;
+    --muted: #5E7285;
+    --border: rgba(44, 79, 104, 0.16);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #6FA3C7;
+      --accent-deep: #9CC3DE;
+      --bg: #0F1720;
+      --fg: #E8F0F6;
+      --muted: #93A9BB;
+      --border: rgba(111, 163, 199, 0.22);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg); color: var(--fg); line-height: 1.7;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+  a.back { color: var(--accent); text-decoration: none; font-size: 14px; }
+  h1 { font-size: 36px; color: var(--accent-deep); margin: 24px 0; }
+  h2 { font-size: 22px; color: var(--accent-deep); margin: 32px 0 12px; }
+  p { margin-bottom: 12px; }
+  .updated { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="../">← Raidic</a>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: August 1, 2026</p>
+
+  <h2>The short version</h2>
+  <p>Raidic does not collect, store, or transmit any data. Period.</p>
+
+  <h2>What the app does</h2>
+  <p>Raidic creates and manages AppleRAID sets on your Mac by driving
+  macOS's built-in <code>diskutil</code> tool. All operations happen
+  entirely on your Mac. The app has no network capability: it makes no
+  network connections, contains no analytics, no telemetry, no crash
+  reporting, and no third-party SDKs.</p>
+
+  <h2>Disk access</h2>
+  <p>Reading RAID and disk status requires no special privileges. Actions
+  that modify disks — creating a RAID set, adding or removing members —
+  prompt for macOS administrator authentication through the system's own
+  authorization dialog. Raidic never sees or stores your password; the
+  prompt is handled by macOS.</p>
+
+  <h2>Settings</h2>
+  <p>Your preferences (language, label colors) are stored locally in
+  macOS user defaults and never leave your Mac.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy: open an issue on the Raidic repository
+  or contact the developer.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raidic — Mac で AppleRAID をかんたん管理</title>
+<meta name="description" content="Raidic はターミナルなしで AppleRAID を作成・管理できる macOS アプリ。ミラー、ストライプ、リアルタイム再構築進捗、デグレード警告をひと目で。">
+<link rel="alternate" hreflang="en" href="https://raidic.app/">
+<link rel="alternate" hreflang="zh-Hant" href="https://raidic.app/zh/">
+<link rel="alternate" hreflang="ja" href="https://raidic.app/ja/">
+<link rel="alternate" hreflang="ko" href="https://raidic.app/ko/">
+<link rel="alternate" hreflang="x-default" href="https://raidic.app/">
+<style>
+  :root {
+    --accent: #4A7A9B;
+    --accent-deep: #2C4F68;
+    --accent-tint: #DFE9F0;
+    --bg: #F2F6F9;
+    --fg: #22303C;
+    --muted: #5E7285;
+    --card: #E5EDF3;
+    --border: rgba(44, 79, 104, 0.16);
+    --ok: #2E9459;
+    --warn: #D48019;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #6FA3C7;
+      --accent-deep: #9CC3DE;
+      --accent-tint: #1C2A36;
+      --bg: #0F1720;
+      --fg: #E8F0F6;
+      --muted: #93A9BB;
+      --card: #17222D;
+      --border: rgba(111, 163, 199, 0.22);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 900px; margin: 0 auto; padding: 16px 24px;
+  }
+  .brand { font-weight: 700; font-size: 17px; color: var(--accent-deep); text-decoration: none; }
+  .lang { font-size: 14px; color: var(--muted); }
+  .lang a { color: var(--muted); text-decoration: none; padding: 0 6px; }
+  .lang a:hover { color: var(--fg); }
+  .lang a.active { color: var(--accent-deep); font-weight: 600; }
+  header { padding: 72px 0 48px; text-align: center; }
+  header h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; }
+  header .tagline { font-size: 28px; font-weight: 700; color: var(--muted); margin-top: 12px; }
+  .raid-demo {
+    margin: 56px auto 0; max-width: 560px; text-align: left;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px;
+  }
+  .raid-demo.degraded { background: rgba(212, 128, 25, 0.10); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chip {
+    display: inline-block; padding: 3px 12px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; color: #fff;
+  }
+  .chip.name { background: #4075BF; font-size: 16px; }
+  .chip.level { background: #6E56CF; }
+  .chip.size { background: #3A8E8C; }
+  .chip.warn { background: var(--warn); }
+  .member { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .member code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; }
+  .dot-ok {
+    display: inline-block; padding: 2px 8px; border-radius: 999px;
+    background: var(--ok); color: #fff; font-size: 11px; font-weight: 700;
+  }
+  .bar {
+    flex: 1; height: 6px; border-radius: 3px; background: var(--border);
+    overflow: hidden; max-width: 180px;
+  }
+  .bar span { display: block; height: 100%; width: 37%; background: #B88A0D; border-radius: 3px; }
+  .pct { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); }
+  section { padding: 48px 0; border-top: 1px solid var(--border); }
+  h2 { font-size: 28px; font-weight: 700; margin-bottom: 24px; color: var(--accent-deep); }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .feature { background: var(--card); border-radius: 16px; padding: 24px; }
+  .feature h3 { font-size: 18px; margin-bottom: 8px; }
+  .feature p { color: var(--muted); font-size: 15px; }
+  .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .mode { background: var(--card); border-radius: 16px; padding: 28px; }
+  .mode h3 { font-size: 20px; margin-bottom: 10px; color: var(--accent-deep); }
+  .mode p { color: var(--muted); font-size: 15px; }
+  .mode code {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 1px 6px; font-size: 13px;
+  }
+  details {
+    background: var(--card); border-radius: 12px; padding: 16px 20px;
+    margin-bottom: 10px; border: 1px solid var(--border);
+  }
+  details summary {
+    font-weight: 600; cursor: pointer; color: var(--accent-deep);
+    font-size: 16px;
+  }
+  details p { color: var(--muted); font-size: 15px; margin-top: 10px; }
+  footer { padding: 48px 0 64px; text-align: center; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); }
+  .langs { margin-top: 8px; }
+</style>
+<script>
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest(".lang a");
+    if (!link) return;
+    try { localStorage.setItem("raidic-lang", link.getAttribute("data-lang")); } catch (e) {}
+  });
+</script>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="./">Raidic</a>
+  <span class="lang"><a href="../zh/" data-lang="zh">中文</a>|<a class="active" href="./" data-lang="ja">日本語</a>|<a href="../ko/" data-lang="ko">한국어</a>|<a href="../?lang=en" data-lang="en">EN</a></span>
+</nav>
+
+<header class="container">
+  <h1>Raidic</h1>
+  <p class="tagline">AppleRAID をスマートに。<br>ターミナルは不要。</p>
+
+  <div class="raid-demo degraded" aria-hidden="true">
+    <div class="chips">
+      <span class="chip name">Backup</span>
+      <span class="chip warn">再構築中</span>
+      <span class="chip level">ミラー</span>
+      <span class="chip size">2 TB</span>
+    </div>
+    <div class="member">
+      <span class="dot-ok">OK</span> <code>disk4s2</code>
+    </div>
+    <div class="member">
+      <span class="dot-ok" style="background:#B88A0D">⟳</span> <code>disk5s2</code>
+      <span class="bar"><span></span></span>
+      <span class="pct">37.4% · 748 GB / 2 TB</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>diskutil の情報を、ひと目で</h2>
+    <div class="modes">
+      <div class="mode">
+        <h3>異常は見逃せないデザイン</h3>
+        <p>デグレードしたセットはカード全体がオレンジ色に。1 台だけで
+        動くミラーには <code>冗長性なし</code> と表示 — macOS が
+        「Online」と報告していても。欠けたメンバーは名指しで警告します。</p>
+      </div>
+      <div class="mode">
+        <h3>再構築の進捗をバイト精度で</h3>
+        <p>diskutil の表示は整数パーセントだけ。Raidic は再構築済み
+        バイト数を直接読み取り、開始直後から <code>0.12%</code>、進行中は
+        <code>748 GB / 2 TB</code> と表示 — 5 秒ごとに自動更新します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>実際の RAID ワークフローのために</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>🖱 ディスクをドラッグするだけ</h3>
+        <p>物理ディスクを RAID セットにドロップすればメンバーに追加。
+        確認は一度だけ、勝手に実行されることはありません。</p>
+      </div>
+      <div class="feature">
+        <h3>🧱 あえてのデグレード RAID1</h3>
+        <p>まず 1 台でミラーを作成し、データを移してから 2 台目を追加。
+        定番の移行ワークフローを標準サポート。</p>
+      </div>
+      <div class="feature">
+        <h3>🛟 ガードレール完備</h3>
+        <p>起動ディスクは候補に出ません。破壊的操作はセット名の入力が
+        必須。容量不足のディスクはパスワード入力の前に拒否されます。</p>
+      </div>
+      <div class="feature">
+        <h3>🧭 ボリュームの地図</h3>
+        <p>マウント中の全ボリュームのファイルシステム・マウント先・
+        空き容量を一覧表示 — RAID セット上の APFS コンテナ内の
+        ボリュームも含めて。</p>
+      </div>
+      <div class="feature">
+        <h3>🔍 ディスクの詳細</h3>
+        <p>ディスクをクリックすればモデル名・バス・SMART 状態・
+        パーティションを表示。「Samsung PSSD T7」のようなブランド名も
+        リストに直接表示されます。</p>
+      </div>
+      <div class="feature">
+        <h3>🏷 ラベルは自分色に</h3>
+        <p>セット名・タイプ・容量はカラフルなチップ。クリックで色が
+        変わり、文字色は自動で黒白が切り替わって常に読みやすく。</p>
+      </div>
+      <div class="feature">
+        <h3>🌐 3 つの言語</h3>
+        <p>English・繁體中文・日本語 — 設定の ⌘, でいつでも切替。</p>
+      </div>
+      <div class="feature">
+        <h3>🍎 ネイティブ</h3>
+        <p>SwiftUI、Apple Silicon ネイティブ、依存なし。読み取りは
+        パスワード不要、変更時のみ管理者認証を求めます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <h2>よくある質問</h2>
+      <details>
+        <summary>データの入ったディスクで使っても安全ですか？</summary>
+        <p>Raidic が使うのは Apple 純正の diskutil エンジンです。一覧と監視は読み取り専用でパスワード不要。破壊的な操作 — セット作成やメンバー追加 — は消去されるディスクを明示し、セット名の入力と macOS の管理者認証を必須にしています。</p>
+      </details>
+      <details>
+        <summary>デグレード RAID1 を作成できますか？</summary>
+        <p>はい。ミラーを選んでディスクを 1 台だけ選択すると、冗長性なしで開始されることを警告した上で作成できます。後から 2 台目をドラッグすればミラーが完成し、進捗表示付きの再構築が始まります。</p>
+      </details>
+      <details>
+        <summary>macOS は Online なのに「冗長性なし」と出るのはなぜ？</summary>
+        <p>メンバーが 1 台だけのミラーを macOS は Online と報告します。唯一のメンバーが健全だからです。しかし 1 台では耐障害性はゼロ — Raidic はその状態を明示的に警告します。</p>
+      </details>
+      <details>
+        <summary>RAID 上の APFS に対応していますか？</summary>
+        <p>はい。RAID セットに APFS コンテナが載っている場合、Raidic はコンテナをたどって実際にマウントされているボリュームを見つけ、名前・マウント先・空き容量を表示します。</p>
+      </details>
+      <details>
+        <summary>ディスクが候補に出ないのはなぜ？</summary>
+        <p>起動ディスクと、既に他の RAID セットに属するディスクは候補に出しません。削除済みセットの RAID 残留があるディスクにはラベルが付きます — そのまま使用可能で、新しいセットの作成時にクリーンアップされます。</p>
+      </details>
+      <details>
+        <summary>Raidic はデータを送信しますか？</summary>
+        <p>いいえ。ネットワーク機能も分析トラッキングもありません。macOS 自身のディスク管理としか通信しません。</p>
+      </details>
+      <details>
+        <summary>Apple Silicon Mac は AppleRAID から起動できますか？</summary>
+        <p>できません — これは macOS の制限で、Raidic のものではありません。AppleRAID はデータ用・外付けディスク用です。ミラーリングしたバックアップペアなどに最適です。</p>
+      </details>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Raidic — macOS ユーティリティ。</p>
+    <p class="langs">English · 繁體中文 · 日本語 · 한국어</p>
+  </div>
+</footer>
+
+</body>
+</html>
