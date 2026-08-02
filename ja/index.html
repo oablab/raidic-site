@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raidic — Mac で AppleRAID をかんたん管理</title>
 <meta name="description" content="Raidic はターミナルなしで AppleRAID を作成・管理できる macOS アプリ。ミラー、ストライプ、リアルタイム再構築進捗、デグレード警告をひと目で。">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="alternate" hreflang="en" href="https://raidic.app/">
 <link rel="alternate" hreflang="zh-Hant" href="https://raidic.app/zh/">
 <link rel="alternate" hreflang="ja" href="https://raidic.app/ja/">
@@ -83,6 +85,11 @@
   }
   .bar span { display: block; height: 100%; width: 37%; background: #B88A0D; border-radius: 3px; }
   .pct { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); }
+  .shot {
+    display: block; width: 100%; max-width: 780px; margin: 56px auto 0;
+    border-radius: 16px; border: 1px solid var(--border);
+    box-shadow: 0 24px 64px rgba(44, 79, 104, 0.18);
+  }
   section { padding: 48px 0; border-top: 1px solid var(--border); }
   h2 { font-size: 28px; font-weight: 700; margin-bottom: 24px; color: var(--accent-deep); }
   .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
@@ -128,22 +135,8 @@
   <h1>Raidic</h1>
   <p class="tagline">AppleRAID をスマートに。<br>ターミナルは不要。</p>
 
-  <div class="raid-demo degraded" aria-hidden="true">
-    <div class="chips">
-      <span class="chip name">Backup</span>
-      <span class="chip warn">再構築中</span>
-      <span class="chip level">ミラー</span>
-      <span class="chip size">2 TB</span>
-    </div>
-    <div class="member">
-      <span class="dot-ok">OK</span> <code>disk4s2</code>
-    </div>
-    <div class="member">
-      <span class="dot-ok" style="background:#B88A0D">⟳</span> <code>disk5s2</code>
-      <span class="bar"><span></span></span>
-      <span class="pct">37.4% · 748 GB / 2 TB</span>
-    </div>
-  </div>
+  <img class="shot" src="../assets/screenshot@2x.png" width="849"
+       alt="Raidic が正常な 1 TB ミラー RAID セットを表示：2 つの OK メンバー、マウント済みボリューム、物理ディスク">
 </header>
 
 <section>
