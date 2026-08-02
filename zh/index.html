@@ -46,6 +46,9 @@
     -webkit-font-smoothing: antialiased;
   }
   .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .brand { display: flex; align-items: center; gap: 8px; }
+  .brand img { width: 26px; height: 26px; }
+  .app-icon { width: 108px; height: 108px; display: block; margin: 0 auto 16px; }
   nav {
     display: flex; justify-content: space-between; align-items: center;
     max-width: 900px; margin: 0 auto; padding: 16px 24px;
@@ -127,11 +130,12 @@
 <body>
 
 <nav>
-  <a class="brand" href="./">Raidic</a>
+  <a class="brand" href="./"><img src="../assets/icon-256.png" alt="">Raidic</a>
   <span class="lang"><a class="active" href="./" data-lang="zh">中文</a>|<a href="../ja/" data-lang="ja">日本語</a>|<a href="../ko/" data-lang="ko">한국어</a>|<a href="../?lang=en" data-lang="en">EN</a></span>
 </nav>
 
 <header class="container">
+  <img class="app-icon" src="../assets/icon-256.png" alt="Raidic app icon">
   <h1>Raidic</h1>
   <p class="tagline">AppleRAID 管理，<br>不用打開終端機。</p>
 
