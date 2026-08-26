@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>驗證 Raidic 開發者簽章與 Apple 公證</title>
+<meta name="description" content="使用 macOS 內建工具驗證 Raidic DMG 的 SHA-256、Developer ID 簽署者、Apple 公證狀態與 App bundle 簽章。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Raidic">
+<meta property="og:title" content="驗證 Raidic 開發者簽章與 Apple 公證">
+<meta property="og:description" content="確認下載的 Raidic 確實由 Hung-En Hsieh（UM92U863A8）簽署並通過 Apple 公證。">
+<meta property="og:url" content="https://raidic.app/zh/verify-signature/">
+<meta property="og:image" content="https://raidic.app/assets/og-image.png">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<style>
+  :root {
+    --accent: #4A7A9B;
+    --accent-deep: #2C4F68;
+    --accent-tint: #DFE9F0;
+    --bg: #F2F6F9;
+    --fg: #22303C;
+    --muted: #5E7285;
+    --card: #E5EDF3;
+    --border: rgba(44, 79, 104, 0.16);
+    --ok: #2E9459;
+    --code-bg: #17222D;
+    --code-fg: #E8F0F6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #6FA3C7;
+      --accent-deep: #9CC3DE;
+      --accent-tint: #1C2A36;
+      --bg: #0F1720;
+      --fg: #E8F0F6;
+      --muted: #93A9BB;
+      --card: #17222D;
+      --border: rgba(111, 163, 199, 0.22);
+      --code-bg: #091019;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav a { color: var(--accent-deep); text-decoration: none; font-weight: 650; }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand img { width: 28px; height: 28px; }
+  main { max-width: 860px; margin: 0 auto; padding: 54px 24px 90px; }
+  header { text-align: center; margin-bottom: 50px; }
+  header img { width: 92px; height: 92px; }
+  h1 { margin: 16px 0 10px; font-size: clamp(34px, 6vw, 50px); line-height: 1.18; letter-spacing: -0.025em; }
+  header p { max-width: 650px; margin: 0 auto; color: var(--muted); font-size: 18px; }
+  .identity {
+    margin: 28px auto 0;
+    max-width: 680px;
+    padding: 18px 20px;
+    background: color-mix(in srgb, var(--ok) 12%, var(--card));
+    border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent);
+    border-radius: 14px;
+    text-align: left;
+  }
+  .identity strong { color: var(--ok); }
+  .identity code { overflow-wrap: anywhere; }
+  section {
+    margin-top: 22px;
+    padding: 26px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+  }
+  h2 { margin: 0 0 10px; color: var(--accent-deep); font-size: 23px; }
+  p { margin: 8px 0; }
+  a { color: var(--accent-deep); }
+  .number {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: var(--accent-deep);
+    color: #fff;
+    font-size: 15px;
+    vertical-align: 3px;
+  }
+  pre {
+    margin: 16px 0 10px;
+    padding: 17px 18px;
+    overflow-x: auto;
+    border-radius: 12px;
+    background: var(--code-bg);
+    color: var(--code-fg);
+    font: 13px/1.65 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    white-space: pre;
+  }
+  :not(pre) > code {
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: var(--accent-tint);
+    font: 0.9em ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .expected { border-left: 4px solid var(--ok); }
+  .expected::before {
+    content: "預期結果";
+    display: block;
+    margin-bottom: 8px;
+    color: #7FD49E;
+    font-weight: 700;
+  }
+  .warning {
+    margin-top: 22px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--muted);
+  }
+  .warning strong { color: var(--fg); }
+  .downloads { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .button {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 9px;
+    background: var(--accent-deep);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 650;
+  }
+  .button.secondary { background: transparent; color: var(--accent-deep); border: 1px solid var(--border); }
+  footer { margin-top: 46px; text-align: center; color: var(--muted); font-size: 14px; }
+  @media (max-width: 560px) {
+    main { padding-top: 34px; }
+    section { padding: 20px; }
+    pre { font-size: 11px; margin-left: -6px; margin-right: -6px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="../"><img src="../../assets/icon-256.png" alt="">Raidic</a>
+  <a href="../">← 回到下載頁</a>
+</nav>
+
+<main>
+  <header>
+    <img src="../../assets/icon-256.png" alt="Raidic App icon">
+    <h1>驗證開發者簽章</h1>
+    <p>以下步驟只使用 macOS 內建工具，確認下載的 DMG 沒有被替換、確實由指定開發者簽署，並通過 Apple Notary Service 公證。</p>
+    <div class="identity">
+      <strong>Raidic 正確簽署者</strong><br>
+      <code>Developer ID Application: Hung-En Hsieh (UM92U863A8)</code><br>
+      Team Identifier：<code>UM92U863A8</code>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="number">1</span>下載 DMG 與 checksum</h2>
+    <p>把兩個檔案下載到 Mac 的「下載項目」資料夾。</p>
+    <div class="downloads">
+      <a class="button" href="../../downloads/Raidic-0.1.2.dmg" download>下載 Raidic 0.1.2 DMG</a>
+      <a class="button secondary" href="../../downloads/Raidic-0.1.2.dmg.sha256" download>下載 SHA-256 checksum</a>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="number">2</span>確認檔案 SHA-256</h2>
+    <p>打開「終端機」，執行：</p>
+<pre>cd "$HOME/Downloads"
+shasum -a 256 -c Raidic-0.1.2.dmg.sha256</pre>
+<pre class="expected">Raidic-0.1.2.dmg: OK</pre>
+    <p>也可以直接查看雜湊值：</p>
+<pre>shasum -a 256 "$HOME/Downloads/Raidic-0.1.2.dmg"</pre>
+    <p>正確 SHA-256：</p>
+<pre class="expected">b4a6249855160dce8e34bc86dbb47d4c44b87418404ef363729bde530d04031c</pre>
+  </section>
+
+  <section>
+    <h2><span class="number">3</span>用 Gatekeeper 驗證簽署者與 Apple 公證</h2>
+    <p>這是最重要的一步。<code>spctl</code> 會使用 macOS Gatekeeper 的規則驗證 DMG：</p>
+<pre>spctl --assess --type open \
+  --context context:primary-signature -vv \
+  "$HOME/Downloads/Raidic-0.1.2.dmg"</pre>
+    <p>預期應同時看到 <code>accepted</code>、<code>Notarized Developer ID</code>，以及正確開發者：</p>
+<pre class="expected">Raidic-0.1.2.dmg: accepted
+source=Notarized Developer ID
+origin=Developer ID Application: Hung-En Hsieh (UM92U863A8)</pre>
+  </section>
+
+  <section>
+    <h2><span class="number">4</span>查看完整 Developer ID 憑證鏈</h2>
+    <p><code>codesign</code> 可顯示 DMG 的簽章 authority、Team ID 與時間戳：</p>
+<pre>codesign -dv --verbose=4 \
+  "$HOME/Downloads/Raidic-0.1.2.dmg" 2&gt;&amp;1 | \
+  grep -E '^(Authority|TeamIdentifier|Timestamp)='</pre>
+<pre class="expected">Authority=Developer ID Application: Hung-En Hsieh (UM92U863A8)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+TeamIdentifier=UM92U863A8
+Timestamp=…</pre>
+  </section>
+
+  <section>
+    <h2><span class="number">5</span>驗證 DMG 裡的 Raidic.app</h2>
+    <p>掛載 DMG，再分別執行嚴格簽章驗證與 Gatekeeper App 驗證：</p>
+<pre>hdiutil attach "$HOME/Downloads/Raidic-0.1.2.dmg"
+
+APP="/Volumes/Raidic 0.1.2/Raidic.app"
+codesign --verify --deep --strict --verbose=2 "$APP"
+spctl --assess --type execute -vv "$APP"
+
+hdiutil detach "/Volumes/Raidic 0.1.2"</pre>
+    <p><code>codesign</code> 成功時不會顯示錯誤；<code>spctl</code> 預期結果：</p>
+<pre class="expected">Raidic.app: accepted
+source=Notarized Developer ID
+origin=Developer ID Application: Hung-En Hsieh (UM92U863A8)</pre>
+  </section>
+
+  <div class="warning">
+    <strong>如果結果不同，請不要開啟 App。</strong><br>
+    SHA-256 用來確認檔案內容；Developer ID 簽章確認簽署者；Gatekeeper 的 <code>Notarized Developer ID</code> 則確認 Apple 已接受該版本。三者用途不同，不能互相取代。
+  </div>
+
+  <footer>
+    <p><a href="../">返回 Raidic 繁體中文首頁</a> · <a href="../../privacy/">隱私權政策</a></p>
+    <p>Copyright © 2026 tautiu.dev</p>
+  </footer>
+</main>
+</body>
+</html>
