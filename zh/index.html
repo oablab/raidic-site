@@ -109,6 +109,14 @@
   }
   .cta:hover { background: var(--accent); }
   .cta-note { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .download-details {
+    max-width: 640px; margin: 10px auto 0; font-size: 12px; color: var(--muted);
+  }
+  .download-details code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px; overflow-wrap: anywhere;
+  }
+  .download-details a { color: var(--accent-deep); }
   .shot {
     display: block; width: 100%; max-width: 780px; margin: 56px auto 0;
     border-radius: 16px; border: 1px solid var(--border);
@@ -159,6 +167,13 @@
   <img class="app-icon" src="../assets/icon-256.png" alt="Raidic app icon">
   <h1>Raidic</h1>
   <p class="tagline">AppleRAID 管理，<br>不用打開終端機。</p>
+
+  <a class="cta" href="../downloads/Raidic-0.1.0.dmg" download>下載 Raidic 0.1.0</a>
+  <p class="cta-note">macOS 13 或更新版本 · Apple 晶片與 Intel · 已通過 Apple 公證</p>
+  <p class="download-details">
+    SHA-256：<code>14d8d8a7168f288f2253ce1ee3701aa423fee6e3e5a3ba0ae4596e8837e21544</code><br>
+    <a href="../downloads/Raidic-0.1.0.dmg.sha256" download>下載 checksum 檔</a>
+  </p>
 
   <img class="shot" src="../assets/screenshot@2x.png" width="849"
        alt="Raidic 顯示健康的 1 TB 鏡像 RAID 集：兩個 OK 成員、掛載卷宗與實體磁碟">
