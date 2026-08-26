@@ -225,9 +225,10 @@
       </div>
       <div class="feature">
         <h3>🛟 Guardrails everywhere</h3>
-        <p>The boot disk is never offered. Destructive actions require
-        typing the set name. Disks too small for a set are refused before
-        you ever type a password.</p>
+        <p>The boot disk is never offered. Set creation and deletion require
+        typing the set name; adding or repairing shows an explicit erase
+        confirmation. Disks too small for a set are refused before you ever
+        type a password.</p>
       </div>
       <div class="feature">
         <h3>🧭 Volumes, mapped</h3>
@@ -266,7 +267,7 @@
     <h2>FAQ</h2>
       <details>
         <summary>Is Raidic safe to use on disks with data?</summary>
-        <p>Raidic drives the same diskutil engine Apple ships. Listing and monitoring are read-only and need no password. Anything destructive — creating a set, adding a member — shows exactly which disks will be erased and requires typing the set name plus macOS admin authentication.</p>
+        <p>Raidic drives the same diskutil engine Apple ships. Listing and monitoring are read-only and need no password. Every destructive action shows what will be erased or removed and requires macOS admin authentication. Set creation and deletion also require typing the set name; adding or repairing a disk uses an explicit erase confirmation.</p>
       </details>
       <details>
         <summary>Can it create a degraded RAID1?</summary>
