@@ -173,8 +173,7 @@
   <p class="cta-note">目前所有功能免費開放，不需試用、訂閱、帳號或授權碼。</p>
   <p class="download-details">
     SHA-256：<code>b4a6249855160dce8e34bc86dbb47d4c44b87418404ef363729bde530d04031c</code><br>
-    <a href="../downloads/Raidic-0.1.2.dmg.sha256" download>下載 checksum 檔</a><br>
-    <a href="./verify-signature/">如何驗證開發者簽章與 Apple 公證</a>
+    <a href="../downloads/Raidic-0.1.2.dmg.sha256" download>下載 checksum 檔</a>
   </p>
 
   <img class="shot" src="../assets/screenshot@2x.png" width="849"
@@ -255,6 +254,10 @@
       <details>
         <summary>在有資料的磁碟上使用 Raidic 安全嗎？</summary>
         <p>Raidic 驅動的是 Apple 內建的 diskutil 引擎。列表與監控是唯讀的，不需要密碼。每個破壞性操作都會明確顯示將被清除或移除的項目，並要求 macOS 管理員認證。建立與刪除 RAID 集還必須輸入名稱；加入或修復磁碟則使用明確的清除確認。</p>
+      </details>
+      <details>
+        <summary>如何驗證 Raidic 是誰簽署的？</summary>
+        <p>可以使用 macOS 內建的 <code>spctl</code> 與 <code>codesign</code>，確認 DMG 和 App 由 <code>Developer ID Application: Hung-En Hsieh (UM92U863A8)</code> 簽署，並顯示 <code>Notarized Developer ID</code>。<a href="./verify-signature/">查看完整驗證步驟與預期結果</a>。</p>
       </details>
       <details>
         <summary>可以建立降級的 RAID1 嗎？</summary>
