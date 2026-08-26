@@ -60,9 +60,13 @@
   authorization dialog. Raidic never sees or stores your password; the
   prompt is handled by macOS.</p>
 
-  <h2>Settings</h2>
-  <p>Your preferences (language, label colors) are stored locally in
-  macOS user defaults and never leave your Mac.</p>
+  <h2>Settings and Advanced activation</h2>
+  <p>Your preferences (language, label colors), Advanced device identity, and
+  any imported activation file are stored locally in macOS UserDefaults,
+  Keychain, or Application Support. Raidic never transmits them. If you request
+  Advanced access, you choose to copy a one-way device request digest and send
+  it to the developer through your own communication channel; the raw hardware
+  identifier and private device key never leave your Mac.</p>
 
   <h2>Contact</h2>
   <p>Questions about this policy: open an issue on the Raidic repository
