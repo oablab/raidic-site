@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raidic 版本紀錄</title>
+<meta name="description" content="Raidic macOS AppleRAID 管理工具的版本紀錄與精簡更新說明。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Raidic">
+<meta property="og:title" content="Raidic 版本紀錄">
+<meta property="og:description" content="由新到舊查看 Raidic 每個版本的精簡更新說明。">
+<meta property="og:url" content="https://raidic.app/zh/releases/">
+<meta property="og:image" content="https://raidic.app/assets/og-image.png">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<style>
+  :root {
+    --accent: #4A7A9B;
+    --accent-deep: #2C4F68;
+    --accent-tint: #DFE9F0;
+    --bg: #F2F6F9;
+    --fg: #22303C;
+    --muted: #5E7285;
+    --card: #E5EDF3;
+    --border: rgba(44, 79, 104, 0.16);
+    --ok: #2E9459;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #6FA3C7;
+      --accent-deep: #9CC3DE;
+      --accent-tint: #1C2A36;
+      --bg: #0F1720;
+      --fg: #E8F0F6;
+      --muted: #93A9BB;
+      --card: #17222D;
+      --border: rgba(111, 163, 199, 0.22);
+      --ok: #64C98B;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav a { color: var(--accent-deep); text-decoration: none; font-weight: 650; }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand img { width: 28px; height: 28px; }
+  main { max-width: 760px; margin: 0 auto; padding: 54px 24px 90px; }
+  header { margin-bottom: 42px; }
+  h1 {
+    margin: 0 0 8px;
+    font-size: clamp(36px, 7vw, 52px);
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+  }
+  header p { margin: 0; color: var(--muted); font-size: 18px; }
+  .current {
+    margin-top: 24px;
+    padding: 15px 17px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: color-mix(in srgb, var(--ok) 10%, var(--card));
+    border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
+    border-radius: 13px;
+  }
+  .current span { color: var(--muted); }
+  .button {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 9px;
+    background: var(--accent-deep);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 650;
+  }
+  .releases { border-top: 1px solid var(--border); }
+  article { padding: 28px 0; border-bottom: 1px solid var(--border); }
+  .release-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  h2 { margin: 0; color: var(--fg); font-size: 25px; line-height: 1.2; }
+  time, .platform { color: var(--muted); font-size: 14px; }
+  .platform, .latest {
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--accent-tint);
+  }
+  .latest { color: var(--ok); font-size: 13px; font-weight: 750; }
+  article p { margin: 0; font-size: 17px; }
+  footer {
+    margin-top: 44px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 14px;
+  }
+  footer a { color: inherit; }
+  @media (max-width: 560px) {
+    main { padding-top: 34px; }
+    .current { align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="../"><img src="../../assets/icon-256.png" alt="">Raidic</a>
+  <a href="../">← Raidic</a>
+</nav>
+
+<main>
+  <header>
+    <h1>版本紀錄</h1>
+    <p>每個版本帶來了什麼，由新到舊。</p>
+    <div class="current">
+      <span>目前版本：Raidic 0.1.3 · macOS 13 或更新版本</span>
+      <a class="button" href="../../downloads/Raidic-0.1.3.dmg" download>下載 DMG</a>
+    </div>
+  </header>
+
+  <section class="releases" aria-label="Raidic 版本紀錄">
+    <article>
+      <div class="release-head">
+        <h2>0.1.3</h2>
+        <span class="latest">最新</span>
+        <span class="platform">Mac</span>
+        <time datetime="2026-08-27">2026 年 8 月 27 日</time>
+      </div>
+      <p>健康且有冗餘保護的 RAID 卡片現在會顯示淡綠色背景；降級、重建中、離線與無冗餘狀態仍保留醒目的警示色。</p>
+    </article>
+
+    <article>
+      <div class="release-head">
+        <h2>0.1.2</h2>
+        <span class="platform">Mac</span>
+        <time datetime="2026-08-26">2026 年 8 月 26 日</time>
+      </div>
+      <p>修正 App「關於 Raidic」中的版權資訊，讓顯示內容與正式發行者資料一致。</p>
+    </article>
+
+    <article>
+      <div class="release-head">
+        <h2>0.1.1</h2>
+        <span class="platform">Mac</span>
+        <time datetime="2026-08-26">2026 年 8 月 26 日</time>
+      </div>
+      <p>所有既有功能改為完全免費開放，不需試用、訂閱、帳號或授權碼。</p>
+    </article>
+
+    <article>
+      <div class="release-head">
+        <h2>0.1.0</h2>
+        <span class="platform">Mac</span>
+        <time datetime="2026-08-26">2026 年 8 月 26 日</time>
+      </div>
+      <p>首次提供 Developer ID 簽署、Apple 公證的通用 DMG，支援建立、監控、修復與管理 AppleRAID。</p>
+    </article>
+  </section>
+
+  <footer>
+    <p><a href="../">Raidic</a> · <a href="../verify-signature/">驗證簽章</a> · <a href="../terms/">使用條款</a> · <a href="../../privacy/">Privacy Policy（英文）</a></p>
+    <p>Copyright © 2026 tautiu.dev</p>
+  </footer>
+</main>
+</body>
+</html>
