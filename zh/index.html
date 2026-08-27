@@ -67,10 +67,19 @@
     max-width: 900px; margin: 0 auto; padding: 16px 24px;
   }
   .brand { font-weight: 700; font-size: 17px; color: var(--accent-deep); text-decoration: none; }
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+  .nav-release { color: var(--accent-deep); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .nav-release:hover { color: var(--fg); }
   .lang { font-size: 14px; color: var(--muted); }
   .lang a { color: var(--muted); text-decoration: none; padding: 0 6px; }
   .lang a:hover { color: var(--fg); }
   .lang a.active { color: var(--accent-deep); font-weight: 600; }
+  @media (max-width: 600px) {
+    nav { padding-left: 12px; padding-right: 12px; }
+    .nav-actions { gap: 4px; }
+    .nav-release { font-size: 13px; }
+    .lang a { padding-left: 3px; padding-right: 3px; }
+  }
   header { padding: 72px 0 48px; text-align: center; }
   header h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; }
   header .tagline { font-size: 30px; font-weight: 700; color: var(--muted); margin-top: 12px; }
@@ -160,7 +169,10 @@
 
 <nav>
   <a class="brand" href="./"><img src="../assets/icon-256.png" alt="">Raidic</a>
-  <span class="lang"><a class="active" href="./" data-lang="zh">中文</a>|<a href="../ja/" data-lang="ja">日本語</a>|<a href="../ko/" data-lang="ko">한국어</a>|<a href="../?lang=en" data-lang="en">EN</a></span>
+  <div class="nav-actions">
+    <a class="nav-release" href="./releases/">版本紀錄</a>
+    <span class="lang"><a class="active" href="./" data-lang="zh">中文</a>|<a href="../ja/" data-lang="ja">日本語</a>|<a href="../ko/" data-lang="ko">한국어</a>|<a href="../?lang=en" data-lang="en">EN</a></span>
+  </div>
 </nav>
 
 <header class="container">
