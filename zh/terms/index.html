@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raidic — 使用條款</title>
+<meta name="description" content="Raidic 使用條款，包含 AppleRAID、破壞性磁碟操作、備份、保固與資料遺失的重要風險揭露。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Raidic">
+<meta property="og:title" content="Raidic — 使用條款">
+<meta property="og:description" content="使用 Raidic 與 AppleRAID 磁碟操作前，請閱讀重要條款與資料遺失風險揭露。">
+<meta property="og:url" content="https://raidic.app/zh/terms/">
+<meta property="og:image" content="https://raidic.app/assets/og-image.png">
+<meta property="og:locale" content="zh_TW">
+<link rel="alternate" hreflang="en" href="https://raidic.app/terms/">
+<link rel="alternate" hreflang="zh-Hant" href="https://raidic.app/zh/terms/">
+<link rel="alternate" hreflang="x-default" href="https://raidic.app/terms/">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<style>
+  :root {
+    --accent: #4A7A9B; --accent-deep: #2C4F68; --bg: #F2F6F9;
+    --fg: #22303C; --muted: #5E7285; --card: #E5EDF3;
+    --border: rgba(44,79,104,.16); --danger: #B45309;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #6FA3C7; --accent-deep: #9CC3DE; --bg: #0F1720;
+      --fg: #E8F0F6; --muted: #93A9BB; --card: #17222D;
+      --border: rgba(111,163,199,.22); --danger: #F3A84B;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--fg); line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  nav { max-width: 820px; margin: 0 auto; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
+  nav a { color: var(--accent-deep); text-decoration: none; font-weight: 650; }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand img { width: 28px; height: 28px; }
+  main { max-width: 820px; margin: 0 auto; padding: 46px 24px 90px; }
+  h1 { margin: 0 0 8px; color: var(--accent-deep); font-size: clamp(38px, 7vw, 54px); line-height: 1.15; }
+  h2 { margin: 38px 0 10px; color: var(--accent-deep); font-size: 23px; }
+  p, li { color: var(--fg); }
+  .updated { color: var(--muted); font-size: 14px; margin-bottom: 26px; }
+  .intro { font-size: 18px; color: var(--muted); }
+  .risk {
+    margin: 30px 0; padding: 22px; border-radius: 15px;
+    background: color-mix(in srgb, var(--danger) 10%, var(--card));
+    border: 1px solid color-mix(in srgb, var(--danger) 38%, transparent);
+  }
+  .risk strong { color: var(--danger); }
+  .risk p { margin: 6px 0 0; }
+  section { border-top: 1px solid var(--border); }
+  ul { padding-left: 24px; }
+  a { color: var(--accent-deep); }
+  code { padding: 2px 6px; border-radius: 5px; background: var(--card); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .caps { font-weight: 750; }
+  footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+  footer p { color: var(--muted); }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="../"><img src="../../assets/icon-256.png" alt="">Raidic</a>
+  <a href="../../terms/">English</a>
+</nav>
+
+<main>
+  <h1>使用條款</h1>
+  <p class="updated">生效日期：2026 年 8 月 26 日 · 第 1.0 版</p>
+  <p class="intro">本使用條款（下稱「本條款」）適用於你下載、安裝、存取或使用 Raidic。Raidic 由 tautiu.dev（下稱「我們」）提供。</p>
+
+  <div class="risk">
+    <strong>重要資料遺失警告</strong>
+    <p>Raidic 會執行磁碟管理操作。建立、刪除、加入、移除或修復 RAID 成員時，macOS <code>diskutil</code> 可能在操作過程中清除、重新分割或格式化磁碟，造成資料永久消失或無法存取。RAID 不是備份。使用任何會變更磁碟的操作前，請先建立並測試獨立備份。</p>
+  </div>
+
+  <section>
+    <h2>1. 接受條款</h2>
+    <p>下載、安裝、存取或使用 Raidic，即表示你已閱讀、理解並同意本條款。若你不同意，請勿下載、安裝或使用 Raidic。若你代表組織使用 Raidic，你表示自己有權代表該組織接受本條款。</p>
+  </section>
+
+  <section>
+    <h2>2. Raidic 的功能</h2>
+    <p>Raidic 是 Apple macOS <code>diskutil appleRAID</code> 功能的圖形介面。它可以檢視磁碟與 RAID 集，也可以要求管理員授權執行變更，包括建立或刪除 RAID 集、加入或移除成員、變更重建策略，以及修復鏡像。</p>
+    <p>確認對話框、候選磁碟過濾、容量檢查、管理員認證及其他護欄可以減少誤操作，但無法消除所有風險。macOS 行為、磁碟中繼資料、硬體故障、軟體錯誤、使用者選擇、斷電及其他狀況，仍可能導致非預期結果。</p>
+  </section>
+
+  <section>
+    <h2>3. 你的責任</h2>
+    <p>你必須自行判斷操作是否適當，並對其結果負責。在核准會變更磁碟的操作前，你同意：</p>
+    <ul>
+      <li>確認每個受影響磁碟的身分、裝置名稱、型號、容量與內容；</li>
+      <li>至少保有一份最新、經過還原測試、且不只存放在即將變更之 RAID 集上的獨立備份；</li>
+      <li>在可行情況下拔除無關磁碟，並避免於供電不穩、硬體故障或資料傳輸期間執行操作；</li>
+      <li>閱讀所有警告，並在提供管理員授權前確認操作的預期效果；以及</li>
+      <li>遵守適用法律、組織政策，以及硬體或服務條款。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. RAID 不是備份</h2>
+    <p>鏡像可能降低部分單碟故障造成的停機時間，但不能防止誤刪、資料毀損、惡意軟體、失竊、火災、控制器或外接盒故障、軟體錯誤、多顆磁碟同時故障，或人為失誤。降級中、重建中或只有單一成員的鏡像可能完全沒有冗餘。你必須維護獨立備份，並測試其可還原性。</p>
+  </section>
+
+  <section>
+    <h2>5. 風險承擔與資料救援</h2>
+    <p>你應自行承擔使用 Raidic 的風險，包括資料遭清除、毀損、遺失或無法存取；卷宗或檔案系統損壞；重建失敗或不完整；硬體損壞；停機；以及資料救援費用。我們不提供資料救援服務，也不保證已刪除或無法存取的資料可以恢復。</p>
+  </section>
+
+  <section>
+    <h2>6. 相容性與適當用途</h2>
+    <p>我們不保證 Raidic 與每一款 Mac、macOS 版本、磁碟、轉接器、外接盒、檔案系統或既有 RAID 設定相容。Apple 可能變更或移除 AppleRAID 行為。Apple Silicon Mac 無法從 AppleRAID 卷宗開機。Raidic 並非設計用於緊急、生命安全、醫療、核能、航空，或其他一旦故障可能造成人員死亡、傷害、重大環境或財產損失的用途。</p>
+  </section>
+
+  <section>
+    <h2>7. 使用模式與 Advanced 功能</h2>
+    <p>Raidic 公開版本目前包含的所有功能均不需試用、訂閱、帳號、授權碼或網路連線。未來另行提供的「Raidic Advanced」功能可能需要綁定單一 Mac 的啟用檔，並可能適用取得前另行揭露的購買或服務條款。Advanced 啟用不會改變本條款中的磁碟操作風險與備份責任。</p>
+  </section>
+
+  <section>
+    <h2>8. 有限使用許可</h2>
+    <p>在遵守本條款的前提下，我們授予你有限、非專屬、不可轉讓的許可，得為合法的個人或組織內部商業用途安裝並使用 Raidic。Raidic 與其品牌仍屬各權利人所有。本條款不允許你將修改版或第三方版本冒充為 Raidic 官方版本。</p>
+  </section>
+
+  <section>
+    <h2>9. 不提供保固</h2>
+    <p class="caps">在適用法律允許的最大範圍內，Raidic 係按「現狀」及「現有」基礎提供，不附任何明示、默示或法定保證，包括適售性、特定目的適用性、權利完整、不侵權、正確性、可靠性、可用性或無錯誤運作之保證。</p>
+    <p>我們不保證 Raidic 能識別每一顆不安全的磁碟、防止每一次錯誤操作、保存資料、完成重建，或持續與未來 macOS 版本及硬體相容。</p>
+  </section>
+
+  <section>
+    <h2>10. 責任限制</h2>
+    <p class="caps">在適用法律允許的最大範圍內，tautiu.dev 及 Raidic 的開發者、貢獻者與散布者，不對任何間接、附帶、特殊、衍生、示範性或懲罰性損害負責，也不對任何資料遺失、毀損、無法存取或救援費用；利潤、營收、業務或商譽損失；硬體損壞；或營運中斷負責，即使我們已被告知可能發生此類損失亦同。</p>
+    <p>在適用法律允許的最大範圍內，我們因 Raidic 所生或與 Raidic 有關的累計責任總額，不超過你直接為 Raidic 支付的金額（如有）。本節限制不因請求權基礎不同而受影響，即使某項救濟未能達成其主要目的亦同。</p>
+  </section>
+
+  <section>
+    <h2>11. 不可排除的權利</h2>
+    <p>部分司法管轄區不允許某些保固排除或責任限制。本條款不排除、限制或變更依法不得排除、限制或變更的權利或救濟。若某項限制無法完全執行，僅在法律允許的最大範圍內適用。</p>
+  </section>
+
+  <section>
+    <h2>12. 變更、暫停與終止</h2>
+    <p>我們可能更新 Raidic、停止提供功能、停止散布 App，或修訂本條款。更新後條款會公布於本頁並標示新的生效日期。由於 Raidic 不會連線至伺服器，你應定期查看本頁。更新條款公布後繼續使用 Raidic，即表示接受修訂內容。若你重大違反本條款，使用 Raidic 的許可即告終止；依其性質應於終止後繼續有效的條款仍然有效。</p>
+  </section>
+
+  <section>
+    <h2>13. 可分割性與完整條款</h2>
+    <p>若任何條款被認定無法執行，該條款僅在必要的最小範圍內受到限制或刪除，其餘條款繼續有效。本條款以及另行取得 Advanced 功能時呈現的特定條款，共同構成關於使用 Raidic 的約定。</p>
+  </section>
+
+  <section>
+    <h2>14. 聯絡方式</h2>
+    <p>如對本條款有疑問，請寄信至 <a href="mailto:tautiu.dev@gmail.com">tautiu.dev@gmail.com</a>。</p>
+  </section>
+
+  <footer>
+    <p><a href="../">← 返回 Raidic</a> · <a href="../../privacy/">Privacy Policy（英文）</a> · <a href="../../terms/">English</a></p>
+    <p>Copyright © 2026 tautiu.dev</p>
+  </footer>
+</main>
+</body>
+</html>

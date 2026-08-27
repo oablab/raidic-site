@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raidic — Terms of Use</title>
+<meta name="description" content="Terms of Use for Raidic, including important AppleRAID, destructive disk operation, backup, warranty, and data-loss disclosures.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Raidic">
+<meta property="og:title" content="Raidic — Terms of Use">
+<meta property="og:description" content="Important terms and data-loss disclosures for using Raidic and AppleRAID disk operations.">
+<meta property="og:url" content="https://raidic.app/terms/">
+<meta property="og:image" content="https://raidic.app/assets/og-image.png">
+<meta property="og:locale" content="en_US">
+<link rel="alternate" hreflang="en" href="https://raidic.app/terms/">
+<link rel="alternate" hreflang="zh-Hant" href="https://raidic.app/zh/terms/">
+<link rel="alternate" hreflang="x-default" href="https://raidic.app/terms/">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<style>
+  :root {
+    --accent: #4A7A9B; --accent-deep: #2C4F68; --bg: #F2F6F9;
+    --fg: #22303C; --muted: #5E7285; --card: #E5EDF3;
+    --border: rgba(44,79,104,.16); --danger: #B45309;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #6FA3C7; --accent-deep: #9CC3DE; --bg: #0F1720;
+      --fg: #E8F0F6; --muted: #93A9BB; --card: #17222D;
+      --border: rgba(111,163,199,.22); --danger: #F3A84B;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--fg); line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  nav { max-width: 820px; margin: 0 auto; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
+  nav a { color: var(--accent-deep); text-decoration: none; font-weight: 650; }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand img { width: 28px; height: 28px; }
+  main { max-width: 820px; margin: 0 auto; padding: 46px 24px 90px; }
+  h1 { margin: 0 0 8px; color: var(--accent-deep); font-size: clamp(38px, 7vw, 54px); line-height: 1.15; }
+  h2 { margin: 38px 0 10px; color: var(--accent-deep); font-size: 23px; }
+  p, li { color: var(--fg); }
+  .updated { color: var(--muted); font-size: 14px; margin-bottom: 26px; }
+  .intro { font-size: 18px; color: var(--muted); }
+  .risk {
+    margin: 30px 0; padding: 22px; border-radius: 15px;
+    background: color-mix(in srgb, var(--danger) 10%, var(--card));
+    border: 1px solid color-mix(in srgb, var(--danger) 38%, transparent);
+  }
+  .risk strong { color: var(--danger); }
+  .risk p { margin: 6px 0 0; }
+  section { border-top: 1px solid var(--border); }
+  ul { padding-left: 24px; }
+  a { color: var(--accent-deep); }
+  code { padding: 2px 6px; border-radius: 5px; background: var(--card); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .caps { font-weight: 750; letter-spacing: .01em; }
+  footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+  footer p { color: var(--muted); }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="../"><img src="../assets/icon-256.png" alt="">Raidic</a>
+  <a href="../zh/terms/">繁體中文</a>
+</nav>
+
+<main>
+  <h1>Terms of Use</h1>
+  <p class="updated">Effective: August 26, 2026 · Version 1.0</p>
+  <p class="intro">These Terms of Use (“Terms”) govern your download, installation, access to, and use of Raidic. Raidic is provided by tautiu.dev (“we,” “us,” or “our”).</p>
+
+  <div class="risk">
+    <strong>Important data-loss warning</strong>
+    <p>Raidic performs disk-administration operations. Creating, deleting, adding, removing, or repairing RAID members can cause macOS <code>diskutil</code> to erase, repartition, or reformat a disk as part of the operation, permanently erasing data or making it inaccessible. RAID is not a backup. Maintain a tested, independent backup before using any operation that changes a disk.</p>
+  </div>
+
+  <section>
+    <h2>1. Acceptance</h2>
+    <p>By downloading, installing, accessing, or using Raidic, you confirm that you have read, understood, and agree to these Terms. If you do not agree, do not download, install, or use Raidic. If you use Raidic for an organization, you represent that you are authorized to accept these Terms for that organization.</p>
+  </section>
+
+  <section>
+    <h2>2. What Raidic does</h2>
+    <p>Raidic is a graphical interface for Apple’s macOS <code>diskutil appleRAID</code> functionality. It can inspect disks and RAID sets and can request administrator-authorized changes, including creating or deleting a RAID set, adding or removing a member, changing rebuild behavior, and repairing a mirror.</p>
+    <p>Confirmation dialogs, candidate filtering, size checks, administrator authentication, and other safeguards reduce accidental actions but cannot eliminate all risk. macOS behavior, disk metadata, hardware faults, software defects, user selection, power loss, and other conditions can still produce unexpected results.</p>
+  </section>
+
+  <section>
+    <h2>3. Your responsibilities</h2>
+    <p>You are solely responsible for deciding whether an operation is appropriate and for its consequences. Before approving a disk-changing operation, you agree to:</p>
+    <ul>
+      <li>confirm the identity, device name, model, capacity, and contents of every affected disk;</li>
+      <li>maintain at least one current, tested, independent backup that is not stored only on the RAID set being changed;</li>
+      <li>disconnect unrelated disks where practical and avoid operations during unstable power, failing hardware, or active data transfers;</li>
+      <li>read every warning and verify the command’s intended effect before providing administrator authorization; and</li>
+      <li>comply with applicable laws, organizational policies, and hardware or service terms.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. RAID is not a backup</h2>
+    <p>Mirroring may reduce downtime after some single-disk failures, but it does not protect against accidental deletion, corruption, malware, theft, fire, controller or enclosure failure, software defects, simultaneous disk failure, or operator error. A degraded, rebuilding, or single-member mirror may provide no redundancy. You must maintain separate backups and test that they can be restored.</p>
+  </section>
+
+  <section>
+    <h2>5. Assumption of risk and data recovery</h2>
+    <p>You use Raidic at your own risk. You assume the risk of data erasure, corruption, loss, unavailability, volume or filesystem damage, failed or incomplete rebuilds, hardware damage, downtime, and data-recovery expense. We do not provide data-recovery services and do not promise that deleted or inaccessible data can be restored.</p>
+  </section>
+
+  <section>
+    <h2>6. Compatibility and appropriate use</h2>
+    <p>We do not guarantee compatibility with every Mac, macOS release, disk, adapter, enclosure, filesystem, or existing RAID configuration. Apple may change or remove AppleRAID behavior. Apple Silicon Macs cannot boot from AppleRAID volumes. Raidic is not designed for emergency, life-safety, medical, nuclear, aviation, or other uses where failure could cause death, personal injury, or severe environmental or property damage.</p>
+  </section>
+
+  <section>
+    <h2>7. Access model and Advanced features</h2>
+    <p>All features currently included in the public Raidic release are available without a trial, subscription, account, license key, or network connection. Separately offered future “Raidic Advanced” features may require a machine-bound activation file and may be subject to additional purchase or service terms presented before acquisition. An Advanced activation does not change the disk-operation risks or backup responsibilities in these Terms.</p>
+  </section>
+
+  <section>
+    <h2>8. Limited permission to use Raidic</h2>
+    <p>Subject to these Terms, we grant you a limited, non-exclusive, non-transferable permission to install and use Raidic for lawful personal or internal business purposes. Raidic and its branding remain owned by their respective rights holders. These Terms do not authorize you to misrepresent a modified or third-party build as an official Raidic release.</p>
+  </section>
+
+  <section>
+    <h2>9. No warranty</h2>
+    <p class="caps">TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, RAIDIC IS PROVIDED “AS IS” AND “AS AVAILABLE,” WITHOUT WARRANTIES OF ANY KIND, EXPRESS, IMPLIED, OR STATUTORY, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, ACCURACY, RELIABILITY, AVAILABILITY, OR ERROR-FREE OPERATION.</p>
+    <p>We do not warrant that Raidic will identify every unsafe disk, prevent every incorrect operation, preserve data, complete a rebuild, or remain compatible with future macOS versions or hardware.</p>
+  </section>
+
+  <section>
+    <h2>10. Limitation of liability</h2>
+    <p class="caps">TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, TAUTIU.DEV AND RAIDIC’S DEVELOPERS, CONTRIBUTORS, AND DISTRIBUTORS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR ANY LOSS, CORRUPTION, UNAVAILABILITY, OR RECOVERY COST OF DATA; LOSS OF PROFITS, REVENUE, BUSINESS, OR GOODWILL; HARDWARE DAMAGE; OR BUSINESS INTERRUPTION ARISING FROM OR RELATED TO RAIDIC, EVEN IF ADVISED THAT SUCH LOSS MAY OCCUR.</p>
+    <p>To the maximum extent permitted by applicable law, our total aggregate liability arising from or relating to Raidic will not exceed the amount you paid directly for Raidic, if any. The limitations in this section apply regardless of the legal theory and even if a remedy fails of its essential purpose.</p>
+  </section>
+
+  <section>
+    <h2>11. Non-waivable rights</h2>
+    <p>Some jurisdictions do not allow certain warranty exclusions or liability limitations. Nothing in these Terms excludes, restricts, or modifies rights or remedies that cannot lawfully be excluded, restricted, or modified. Where a limitation is not enforceable, it applies only to the maximum extent permitted by law.</p>
+  </section>
+
+  <section>
+    <h2>12. Changes, suspension, and termination</h2>
+    <p>We may update Raidic, discontinue features, stop distributing the app, or revise these Terms. Updated Terms will be posted here with a new effective date. Because Raidic does not contact a server, you should review this page periodically. Your continued use after updated Terms are posted constitutes acceptance of the revised Terms. Your permission to use Raidic ends if you materially breach these Terms; sections intended by their nature to survive will remain in effect.</p>
+  </section>
+
+  <section>
+    <h2>13. Severability and entire terms</h2>
+    <p>If any provision is held unenforceable, it will be limited or removed only to the minimum extent necessary, and the remaining provisions will continue in effect. These Terms, together with any specific terms presented for a separately acquired Advanced feature, form the agreement concerning your use of Raidic.</p>
+  </section>
+
+  <section>
+    <h2>14. Contact</h2>
+    <p>Questions about these Terms: <a href="mailto:tautiu.dev@gmail.com">tautiu.dev@gmail.com</a>.</p>
+  </section>
+
+  <footer>
+    <p><a href="../">← Raidic home</a> · <a href="../privacy/">Privacy Policy</a> · <a href="../zh/terms/">繁體中文</a></p>
+    <p>Copyright © 2026 tautiu.dev</p>
+  </footer>
+</main>
+</body>
+</html>
