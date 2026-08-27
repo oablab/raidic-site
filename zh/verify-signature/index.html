@@ -173,8 +173,8 @@
     <h2><span class="number">1</span>下載 DMG 與 checksum</h2>
     <p>把兩個檔案下載到 Mac 的「下載項目」資料夾。</p>
     <div class="downloads">
-      <a class="button" href="../../downloads/Raidic-0.1.2.dmg" download>下載 Raidic 0.1.2 DMG</a>
-      <a class="button secondary" href="../../downloads/Raidic-0.1.2.dmg.sha256" download>下載 SHA-256 checksum</a>
+      <a class="button" href="../../downloads/Raidic-0.1.3.dmg" download>下載 Raidic 0.1.3 DMG</a>
+      <a class="button secondary" href="../../downloads/Raidic-0.1.3.dmg.sha256" download>下載 SHA-256 checksum</a>
     </div>
     <p>下載、安裝或使用 Raidic，即表示你已閱讀並同意<a href="../terms/">使用條款</a>。磁碟操作可能造成永久資料遺失；請先建立並測試獨立備份。</p>
   </section>
@@ -183,12 +183,12 @@
     <h2><span class="number">2</span>確認檔案 SHA-256</h2>
     <p>打開「終端機」，執行：</p>
 <pre>cd "$HOME/Downloads"
-shasum -a 256 -c Raidic-0.1.2.dmg.sha256</pre>
-<pre class="expected">Raidic-0.1.2.dmg: OK</pre>
+shasum -a 256 -c Raidic-0.1.3.dmg.sha256</pre>
+<pre class="expected">Raidic-0.1.3.dmg: OK</pre>
     <p>也可以直接查看雜湊值：</p>
-<pre>shasum -a 256 "$HOME/Downloads/Raidic-0.1.2.dmg"</pre>
+<pre>shasum -a 256 "$HOME/Downloads/Raidic-0.1.3.dmg"</pre>
     <p>正確 SHA-256：</p>
-<pre class="expected">b4a6249855160dce8e34bc86dbb47d4c44b87418404ef363729bde530d04031c</pre>
+<pre class="expected">c0c197fcb0c48cd1b72b16e02bdcdf69a2dc93cc846cbe9ac2c85e7d62470f3d</pre>
   </section>
 
   <section>
@@ -196,9 +196,9 @@ shasum -a 256 -c Raidic-0.1.2.dmg.sha256</pre>
     <p>這是最重要的一步。<code>spctl</code> 會使用 macOS Gatekeeper 的規則驗證 DMG：</p>
 <pre>spctl --assess --type open \
   --context context:primary-signature -vv \
-  "$HOME/Downloads/Raidic-0.1.2.dmg"</pre>
+  "$HOME/Downloads/Raidic-0.1.3.dmg"</pre>
     <p>預期應同時看到 <code>accepted</code>、<code>Notarized Developer ID</code>，以及正確開發者：</p>
-<pre class="expected">Raidic-0.1.2.dmg: accepted
+<pre class="expected">Raidic-0.1.3.dmg: accepted
 source=Notarized Developer ID
 origin=Developer ID Application: Hung-En Hsieh (UM92U863A8)</pre>
   </section>
@@ -207,7 +207,7 @@ origin=Developer ID Application: Hung-En Hsieh (UM92U863A8)</pre>
     <h2><span class="number">4</span>查看完整 Developer ID 憑證鏈</h2>
     <p><code>codesign</code> 可顯示 DMG 的簽章 authority、Team ID 與時間戳：</p>
 <pre>codesign -dv --verbose=4 \
-  "$HOME/Downloads/Raidic-0.1.2.dmg" 2&gt;&amp;1 | \
+  "$HOME/Downloads/Raidic-0.1.3.dmg" 2&gt;&amp;1 | \
   grep -E '^(Authority|TeamIdentifier|Timestamp)='</pre>
 <pre class="expected">Authority=Developer ID Application: Hung-En Hsieh (UM92U863A8)
 Authority=Developer ID Certification Authority
@@ -219,13 +219,13 @@ Timestamp=…</pre>
   <section>
     <h2><span class="number">5</span>驗證 DMG 裡的 Raidic.app</h2>
     <p>掛載 DMG，再分別執行嚴格簽章驗證與 Gatekeeper App 驗證：</p>
-<pre>hdiutil attach "$HOME/Downloads/Raidic-0.1.2.dmg"
+<pre>hdiutil attach "$HOME/Downloads/Raidic-0.1.3.dmg"
 
-APP="/Volumes/Raidic 0.1.2/Raidic.app"
+APP="/Volumes/Raidic 0.1.3/Raidic.app"
 codesign --verify --deep --strict --verbose=2 "$APP"
 spctl --assess --type execute -vv "$APP"
 
-hdiutil detach "/Volumes/Raidic 0.1.2"</pre>
+hdiutil detach "/Volumes/Raidic 0.1.3"</pre>
     <p><code>codesign</code> 成功時不會顯示錯誤；<code>spctl</code> 預期結果：</p>
 <pre class="expected">Raidic.app: accepted
 source=Notarized Developer ID
